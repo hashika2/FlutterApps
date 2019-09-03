@@ -3,8 +3,9 @@ import 'package:flutter_app/ui/home.dart';
 import './ui/welcome_page.dart';
 
 void main(){
+  String title="Sacfford";
   runApp(new MaterialApp(
-    title: "Scafford",
+    title:title,
     home: new Home(),
   ));
 }

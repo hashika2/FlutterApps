@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 
 class Home extends StatelessWidget{
   void _onPress(){
@@ -30,24 +31,26 @@ class Home extends StatelessWidget{
       // other properties
       backgroundColor:Colors.grey.shade100,
       body: new Container(
+        child:new CustomButton(),
         alignment:Alignment.center,
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text("Hashika",
-              style: new TextStyle(
-                fontSize: 14.5,
-                fontWeight: FontWeight.w400,
-                color: Colors.deepOrange
-              ),),
+        // child: new Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: <Widget>[
+        //     new Text("Hashika",
+        //       style: new TextStyle(
+        //         fontSize: 14.5,
+        //         fontWeight: FontWeight.w400,
+        //         color: Colors.deepOrange
+        //       ),),
 
-            new InkWell(
+        //     new InkWell(
 
-              child:new Text("button"),
-              onTap:_pressButton,
-            )  
-          ],
-        ),
+        //       child:new Text("button"),
+        //       onTap:_pressButton,
+        //     )  
+        //   ],
+        // ),
+        
 
        
       ),
@@ -70,6 +73,34 @@ class Home extends StatelessWidget{
     );
   }
 
+}
+class CustomButton extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return new GestureDetector(
+
+      onTap: (){
+        final SnackBar=new prefix0.SnackBar(content: new Text("Hello Hashika!"),
+        backgroundColor:Theme.of(context).backgroundColor,
+        duration: new Duration(hours: 0,minutes: 0,seconds: 5,milliseconds: 500,microseconds: 0),);
+        Scaffold.of(context).showSnackBar(SnackBar);
+      },
+      child: new Container(
+        padding: new EdgeInsets.all(18.0),
+        decoration: new BoxDecoration(
+          color: Colors.black12,
+
+          borderRadius: new BorderRadius.circular(5.5)
+        ),
+         child :new Text("First Button",textDirection: TextDirection.ltr),
+         
+      ),
+  
+    );
+     
+  
+  }
 }
 
 
