@@ -12,7 +12,12 @@ class Login extends StatefulWidget{
 class LoginState extends State<Login>{
   final TextEditingController _userController=new TextEditingController();
   final TextEditingController _passwordController=new TextEditingController();
-  String welcomName="";
+  String welcomName="!";
+  String age;
+  String universty="";
+  String course="";
+  String email="";
+  String pnumber="";
 
   void _irase(){
     setState(() {
@@ -22,11 +27,16 @@ class LoginState extends State<Login>{
   }
   void _welcomeShow(){
     setState(() {
-      if(_userController.text.isNotEmpty && _passwordController.text.isNotEmpty){
+      if(_userController.text=="hashika" && _passwordController.text=="12345"){
         welcomName=_userController.text;
+        age="age is 23";
+        universty="University of Kelaniya";
+        course="Studing Softawre Engineering";
+        email="email :m.g.hashikamaduranga@gmail.com";
+        pnumber="0774164979";
       }
       else{
-        welcomName="Nothing!";
+        welcomName="Enter correct username and Password!";
       }
 
     });
@@ -44,7 +54,7 @@ class LoginState extends State<Login>{
         body: new Container(
          
           alignment: Alignment.topCenter,
-          child: new Column(
+          child: new ListView(
             children: <Widget>[
               //set image
               new Image.asset(
@@ -74,6 +84,7 @@ class LoginState extends State<Login>{
                     icon:new Icon(Icons.lock),
                     
                   ),
+                  obscureText: true, //dont show password
                 ),
                 new Padding(padding: new EdgeInsets.all(10.5),),//padding top
                 new Center(
@@ -119,11 +130,19 @@ class LoginState extends State<Login>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     
-                    new Text("Welcome $welcomName",
+                    new Text('Welcome $welcomName\n'
+                              '$age\n'
+                              '$universty\n'
+                              '$course\n'
+                              '$email\n'
+                              '$pnumber\n',
+                              
                     style:new TextStyle(
                       fontSize: 16.34,
                       color: Colors.white,
-                      fontWeight: FontWeight.w500))
+                      fontWeight: FontWeight.w500)),
+
+                 
                   ],
 
                 )
