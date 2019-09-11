@@ -31,23 +31,27 @@ void main() async{
           itemBuilder: (BuildContext context,int position){
             if(position.isOdd)return new Divider();// after every body status line occure
 
+            final index=position ~/2;// we are dividing position by 2 and returning an integer result
+
             return new ListTile(
-              title: new Text("${_data[position]['title']}",
+              title: new Text("${_data[index]['title']}",
               style: new TextStyle(fontSize: 18.9),),
 
-              subtitle: new Text("${_data[position]['body']}",
+              subtitle: new Text("${_data[index]['body']}",
               style: new TextStyle(fontSize: 14.5,
               fontStyle: FontStyle.italic),
               ),
-              
+
               leading: new CircleAvatar(
                 backgroundColor: Colors.green,
-                child: new Text("${_data[position]['title'][0]}",
+                child: new Text("${_data[index]['title'][0].toString().toUpperCase()}",
                 style:new TextStyle(fontSize: 13.7,
                 color: Colors.deepOrange) ,
                 ),
-                
+
+               
               ),
+              onTap:() {_showOnMessage(context,"${_data[index]['title']}");}, 
               
             );
           },
@@ -55,6 +59,19 @@ void main() async{
       ),
     )
   ));
+}
+
+void _showOnMessage(BuildContext context,String message){
+  var alert=new AlertDialog(
+    title: new Text("App"),
+    content: new Text(message),
+    actions: <Widget>[
+      new FlatButton(onPressed: (){Navigator.pop(context);},
+      child: new Text("OK"),)
+    ],
+  );
+  showDialog(context: context,child: alert);
+
 }
 
 Future<List> getJson() async{
