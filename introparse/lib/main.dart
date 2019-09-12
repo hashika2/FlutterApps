@@ -20,7 +20,7 @@ void main() async{
   runApp(new MaterialApp(
     home:new Scaffold(
       appBar: new AppBar(
-        title: new Text("JASON setting"),
+        title: new Text("JASON API"),
         centerTitle: true,
         backgroundColor: Colors.orangeAccent,
       ),
@@ -78,5 +78,5 @@ Future<List> getJson() async{
   String apiUrl="http://jsonplaceholder.typicode.com/posts";
 
   http.Response response=await http.get(apiUrl);
-  return JSON.decode(response.body);//this is List
+  return json.decode(response.body);//this is List
 }
