@@ -12,35 +12,41 @@ class Login extends StatefulWidget{
 class LoginState extends State<Login>{
   final TextEditingController _userController=new TextEditingController();
   final TextEditingController _passwordController=new TextEditingController();
-  String welcomName="!";
-  String age;
-  String universty="";
-  String course="";
-  String email="";
-  String pnumber="";
+  var _nameFieldController=new TextEditingController();
 
+  String welcomName="!";
+  
   void _irase(){
     setState(() {
      _userController.clear();
      _passwordController.clear(); 
     });
   }
-  void _welcomeShow(){
-    setState(() {
-      if(_userController.text=="hashika" && _passwordController.text=="12345"){
+    void _welcomeShow(){
+  
+  
+  if(_userController.text=="hashika" && _passwordController.text=="12345"){
         welcomName=_userController.text;
-        age="age is 23";
-        universty="University of Kelaniya";
-        course="Studing Softawre Engineering";
-        email="email :m.g.hashikamaduranga@gmail.com";
-        pnumber="0774164979";
+  Future _gotToNextScreen(BuildContext context)async{
+    Map result=await Navigator.of(context).push(
+      new MaterialPageRoute<Map>(
+        builder:(BuildContext context){
+          return new NextScrean(name: _nameFieldController.text);
+        }
+        
+      ),
+      
+    );
+    if(result !=null && result.containsKey('info')){
+        print(result['info'].toString());
+        _nameFieldController.text=result['info'].toString();
+      }else{
+        debugPrint("Nothing");
       }
-      else{
-        welcomName="Enter correct username and Password!";
-      }
-
-    });
   }
+  }
+    }
+
    @override
      Widget build(BuildContext context) {
           
@@ -95,7 +101,16 @@ class LoginState extends State<Login>{
 
                         margin: const EdgeInsets.only(left:16.7),//margin left
                         child: new RaisedButton(
-                          onPressed: _welcomeShow,
+                          onPressed: (){
+                            var router=new MaterialPageRoute(
+                              builder: (BuildContext context){
+                                
+                                return NextScrean();
+                                }
+                              
+                            );
+                            Navigator.of(context).push(router);
+                          },
                           color: Colors.redAccent,
                           child: new Text("login",
                           style:new TextStyle(color: Colors.white,
@@ -130,12 +145,8 @@ class LoginState extends State<Login>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     
-                    new Text('Welcome $welcomName\n'
-                              '$age\n'
-                              '$universty\n'
-                              '$course\n'
-                              '$email\n'
-                              '$pnumber\n',
+                    new Text('Welcome $welcomName\n',
+                              
                               
                     style:new TextStyle(
                       fontSize: 16.34,
@@ -152,4 +163,79 @@ class LoginState extends State<Login>{
         ),
       );
         }
+}
+
+class NextScrean extends StatefulWidget {
+  final String name;
+  NextScrean({Key key,this.name}) : super(key: key);
+
+  _NextScreanState createState() => _NextScreanState();
+}
+
+class _NextScreanState extends State<NextScrean> {
+  var _backTextFieldController=new TextEditingController();
+
+  String welcomName="!";
+  String age;
+  String universty="";
+  String course="";
+  String email="";
+  String pnumber="";
+
+
+//   void _welcomeShow(){
+//     setState(() {
+      
+//         age="age is 23";
+//         universty="University of Kelaniya";
+//         course="Studing Softawre Engineering";
+//         email="email :m.g.hashikamaduranga@gmail.com";
+//         pnumber="0774164979";
+      
+      
+
+//     });
+  
+ 
+// }
+
+  @override
+  Widget build(BuildContext context) {
+   
+    return Scaffold(
+      appBar: new AppBar(
+        title: new Text("Second screan"),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true,
+      ),
+      body:new Container(
+        alignment: Alignment.topCenter,
+        child:new Column(
+         
+          children: <Widget>[
+             new Image.asset('images/FACE.jpg, ',width: 10.0,height: 10.0,fit: BoxFit.fill,),
+             new ListTile(
+               
+              
+        title: new Text('23 Years Old\n\n'
+                              'University Of Kelaniya\n\n'
+                              'Studing Software Engineering\n\n'
+                              'm.g.hashikamaduranga@gmail.com\n\n'
+                              '0774164979\n',
+                              style: new TextStyle(color: Colors.pinkAccent,fontSize: 20.0
+                                                   ),
+                                                   
+                              ),
+                              
+      ),
+      
+          ],
+        )
+        
+      
+      )
+      
+      );
+      
+  }
 }
