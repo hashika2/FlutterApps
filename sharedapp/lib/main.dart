@@ -4,7 +4,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main(){
+void main() async{
+
+  //print data
+  var data= await readData();
+  if(data!=null){
+    String message=await readData();
+    print(message);
+    
+  }
   runApp(new MaterialApp(
     title:'IO',
     home: new Home(),));
@@ -17,12 +25,47 @@ void main(){
     }
     
     class _HomeState extends State<Home> {
+      var _enterDataField=new TextEditingController();
       @override
       Widget build(BuildContext context) {
-        return Container(
-           
-        );
+        return Scaffold(
+           appBar: new AppBar(
+             title: new Text('Read/Write'),
+             centerTitle: true,
+             backgroundColor: Colors.greenAccent,
+           ),
+
+           body: new Container(
+             alignment: Alignment.topCenter,
+             padding: const EdgeInsets.all(10.9),
+             child: new ListTile(
+              title: new TextField(
+                 controller: _enterDataField,
+                 decoration: new InputDecoration(
+                   labelText: "Write Somthing"
+                 ),
+               ),
+               subtitle:new FlatButton(
+                 onPressed: (){
+                   //save data
+                   writeData(_enterDataField.text);
+                 },
+                 child: new Column(
+                   children: <Widget>[
+                     new Text("write some"),
+                     Padding(padding: const EdgeInsets.all(14.5),),
+                     new Text("save data here")
+                   ],
+                 ),
+               )
+
+                 
+               ),
+             ),
+           );
+        
       }
+    }
 
       Future<String> get _localPath async{
         final directory=await getApplicationDocumentsDirectory();
@@ -56,4 +99,4 @@ void main(){
           return e;
         }
       }
-    }
+    
