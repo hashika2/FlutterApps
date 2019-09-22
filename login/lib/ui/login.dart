@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 
 class Login extends StatefulWidget{
   @override
@@ -25,7 +26,7 @@ class LoginState extends State<Login>{
     void _welcomeShow(){
   
   
-  if(_userController.text=="hashika" && _passwordController.text=="12345"){
+ 
         welcomName=_userController.text;
   Future _gotToNextScreen(BuildContext context)async{
     Map result=await Navigator.of(context).push(
@@ -44,7 +45,7 @@ class LoginState extends State<Login>{
         debugPrint("Nothing");
       }
   }
-  }
+  
     }
 
    @override
@@ -54,6 +55,7 @@ class LoginState extends State<Login>{
         appBar:new AppBar(
           title: new Text("Login"),
           backgroundColor: Colors.blueAccent,
+          centerTitle: true,
         ),
         backgroundColor: Colors.blueGrey,
 
@@ -102,14 +104,22 @@ class LoginState extends State<Login>{
                         margin: const EdgeInsets.only(left:16.7),//margin left
                         child: new RaisedButton(
                           onPressed: (){
+                             if(_userController.text=="hashika" && _passwordController.text=="12345"){
                             var router=new MaterialPageRoute(
                               builder: (BuildContext context){
                                 
                                 return NextScrean();
+                              
                                 }
+                             
                               
                             );
+                             
                             Navigator.of(context).push(router);
+                             }else{
+                           
+                            _showonTapMessage(context,"Enter Correct Username or Password");
+                             }
                           },
                           color: Colors.redAccent,
                           child: new Text("login",
@@ -117,7 +127,7 @@ class LoginState extends State<Login>{
                           fontSize: 16.9)),
                         ),
                         
-                        
+                          
                       ),
                       new Container(
                          
@@ -145,7 +155,7 @@ class LoginState extends State<Login>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     
-                    new Text('Welcome $welcomName\n',
+                    new Text('Welcome',
                               
                               
                     style:new TextStyle(
@@ -163,6 +173,21 @@ class LoginState extends State<Login>{
         ),
       );
         }
+        void _showonTapMessage(BuildContext context, String message) {
+          var alert = new AlertDialog(
+            title: Text("Error",style: TextStyle(color: Colors.red),),
+            content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("OK",style: TextStyle(color: Colors.green),),
+                  onPressed: () {
+                      Navigator.pop(context);
+                  }, )
+              ],
+          );
+ // showDialog(context: context, child: alert);
+  showDialog(context: context, builder: (context) => alert);
+}
 }
 
 class NextScrean extends StatefulWidget {
