@@ -203,21 +203,27 @@ class _NextScreanState extends State<NextScrean> {
   Widget build(BuildContext context) {
    
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: new AppBar(
         title: new Text("Second screan"),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
       body:new Container(
-        alignment: Alignment.topCenter,
+        
+        width: 380.0,
+        height: 300.0,
+        color: Colors.blueGrey,
+        margin: const EdgeInsets.all(10.4),
+        alignment: Alignment.center,
         child:new Column(
          
+         
           children: <Widget>[
-             new Image.asset('images/FACE.jpg, ',width: 10.0,height: 10.0,fit: BoxFit.fill,),
-             new ListTile(
-               
-              
-        title: new Text('23 Years Old\n\n'
+             new Image.asset('images/FACE.jpg, ',width: 10.0,height: 10.0,),
+             new Container(
+               child: new ListTile(
+                title: new Text('23 Years Old\n\n'
                               'University Of Kelaniya\n\n'
                               'Studing Software Engineering\n\n'
                               'm.g.hashikamaduranga@gmail.com\n\n'
@@ -228,6 +234,7 @@ class _NextScreanState extends State<NextScrean> {
                               ),
                               
       ),
+             )
       
           ],
         )
