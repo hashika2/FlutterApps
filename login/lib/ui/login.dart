@@ -66,7 +66,7 @@ class LoginState extends State<Login>{
             children: <Widget>[
               //set image
               new Image.asset(
-                "images/face2.jpg",
+                "images/FACE.jpg",
                 height:90.0,
                 width:90.0
               ),
@@ -230,7 +230,7 @@ class _NextScreanState extends State<NextScrean> {
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: new AppBar(
-        title: new Text("Second screan"),
+        title: new Text("My Details"),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
@@ -257,6 +257,7 @@ class _NextScreanState extends State<NextScrean> {
                                                    ),
                                                    
                               ),
+                              
                               
       ),
              )
