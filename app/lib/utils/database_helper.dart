@@ -1,11 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
+import 'dart:async';
+import 'dart:io';
 
-class DatabaseHelper{
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+abstract class DatabaseHelper{
 
   static final DatabaseHelper _instance=new DatabaseHelper().internal();
 
   factory DatabaseHelper()=>_instance;
+
+  final String tableUser="userTable";
+  final String columnId="id";
+  final String columnUsername="username";
+  final String columnPassword="password";
 
   static Database _db;
 
@@ -16,9 +26,25 @@ class DatabaseHelper{
     _db=await initDb();
         return _db;
       }  
-        DatabaseHelper internal() {}
+        DatabaseHelper internal();
     
       initDb() async {
+        Directory documentDirecory=await getApplicationDocumentsDirectory();
+        String path=join(documentDirecory.path,"maindb.db");
 
-      }
+        var ourDb=await openDatabase(path,version:1,onCreate:_onCreate);
+              }
+
+              /*
+              ID    | USERNAME   | PASSWORD
+              1       hashika       1234
+              2        kamal         kamal
+               */
+        
+         Future _onCreate(Database db, int newversion) async {
+           await db.execute(
+             "CREATE TABLE $tableUser($columnId INTEGER PRIMARY KEY,$columnUsername TEXT,$columnPassword TEXT)"
+           );
+  }
+
 }
