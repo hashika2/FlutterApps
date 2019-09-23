@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app/models/user.dart';
-import 'package:flutter/material.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -57,7 +57,7 @@ abstract class DatabaseHelper{
     int res=await dbClient.insert("$tableUser",user.toMap());
     return res;
   }
-  Future<List> getAllDetails() async{
+  Future<List> getAllUsers() async{
     var dbClient=await db;
     var result=await dbClient.rawQuery("SELECT * FROM $tableUser");
 
@@ -69,10 +69,24 @@ abstract class DatabaseHelper{
     return Sqflite.firstIntValue(
       await dbClient.rawQuery('SELECT COUNT(*) FROM $tableUser'));
   }
-  Future<User> getUser() async{
+  Future<User> getUser(int id) async{
     var dbClient=await db;
     var result=await dbClient.rawQuery("SELECT * FROM $tableUser WHERE $columnId=$id");
     return new User.fromMap(result.first);
+  }
+  Future<int> deleteItem(int id) async{
+    var dbClient=await db;
+    return await dbClient.delete(tableUser,
+    where: "$columnId=?",whereArgs: [id]);
+  }
+  Future<int> updateUser(User user) async{
+    var dbClient=await db;
+    return await dbClient.update(tableUser,
+    user.toMap(),where:"$columnId =?",whereArgs: [user.id]);
+  }
+  Future close()async{
+    var dbClient=await db;
+    return dbClient.close();
   }
 
 }
