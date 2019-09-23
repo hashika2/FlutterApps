@@ -57,5 +57,22 @@ abstract class DatabaseHelper{
     int res=await dbClient.insert("$tableUser",user.toMap());
     return res;
   }
+  Future<List> getAllDetails() async{
+    var dbClient=await db;
+    var result=await dbClient.rawQuery("SELECT * FROM $tableUser");
+
+    
+        return result.toList();
+  }
+  Future<int> getCount() async{
+    var dbClient=await db;
+    return Sqflite.firstIntValue(
+      await dbClient.rawQuery('SELECT COUNT(*) FROM $tableUser'));
+  }
+  Future<User> getUser() async{
+    var dbClient=await db;
+    var result=await dbClient.rawQuery("SELECT * FROM $tableUser WHERE $columnId=$id");
+    return new User.fromMap(result.first);
+  }
 
 }
