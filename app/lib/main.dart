@@ -55,6 +55,20 @@ class Home extends StatelessWidget {
         title: new Text("Database"),
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
+      ),
+      body: new ListView.builder(
+        itemCount: _users.length,
+        itemBuilder: (BuildContext context,int position){
+          return new Card(
+            color: Colors.white,
+            elevation: 2.0,
+            child: new ListTile(
+              leading: new Text("User :${User.fromMap(_users[position]).username.substring(0,1)}"),
+              title: new Text("User :${User.fromMap(_users[position]).username}"),
+              subtitle: new Text("Id :${User.fromMap(_users[position]).id}"),
+            ),
+          );
+        },
       )
     );
   }
