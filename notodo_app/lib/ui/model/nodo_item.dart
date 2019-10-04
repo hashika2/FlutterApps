@@ -46,7 +46,7 @@ class NoDoItem extends StatelessWidget {
         crossAxisAlignment:CrossAxisAlignment.start,
         children: <Widget>[
           Text(_itemName,
-            style:TextStyle(
+            style:new TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize:16.9

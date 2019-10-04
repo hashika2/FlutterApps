@@ -89,6 +89,13 @@ class DatabaseHelper {
      where: "$columnId = ?", whereArgs: [id]);
   }
 
+  Future<int> saveItem(NoDoItem item) async {
+    var dbClient = await db;
+    int res = await dbClient.insert("$tableUser", item.toMap());
+    print(res.toString());
+    return res;
+  }
+
 
   Future<int> updateUser(NoDoItem user) async {
     var dbClient = await db;
