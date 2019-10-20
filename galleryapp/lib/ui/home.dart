@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
 
   Widget _desideImageView(){
     if(imageFile == null)
-      return Text("No Image Selected");
+      return Image.asset("images/FACE.jpg",width: 100,height: 100,);
       else{
         return Image.file(imageFile,width:400,height:400);
       }
@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
              _desideImageView(),
-            Text("Hello World"),
+            Text("Welcome to My App",style: new TextStyle(fontSize: 10.4,color: Colors.blueAccent),),
             RaisedButton(
               onPressed: (){
                 _showChoiceDialog(context);
