@@ -12,85 +12,144 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar:new AppBar(
         title: new Text("Side bar Shower"),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
-         body: Center(child: Text('My Page!')),
-          drawer: Drawer(
-            
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Colors.green,
-              ),
+        body: new Stack(
+        children: <Widget>[
+          new Center(
+            child: new Image.asset('images/FACE.jpg',
+            width: 370.0,
+            height: 1100.0,
+            fit: BoxFit.fill,// full size of the screen
             ),
-             ListTile(
-               
-              title: Text('MyDetails',style:TextStyle(color: Colors.black87),),
-              
-
-           onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-               
-                
-                             var router=new MaterialPageRoute(
-                              builder: (BuildContext context){
-                                
-                                return NextScrean();
-                              
-                                }
-                             
-                              
-                            );
-                             
-                            Navigator.of(context).push(router);
-                            
-                           
-                           
-                             
-                          
-               
-              },
-             ),
-            ListTile(
-              title: Text('login'),
-               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-               
-                var router1=new MaterialPageRoute(
-                  builder: (BuildContext context){
-                    return NextScreen2();
-                                      }
-                                    );
-                                                
-                                                 
-                                                Navigator.of(context).push(router1);
-                                                
-                                               
-                                               
-                                                 
-                                              
-                                   
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
+            // new RaisedButton(
+          //    onPressed: _setDetails(),
+          //                textColor: Colors.blueGrey,
+          //                child: new Text("Add Details"),
+          //              )
+          ),
+          
+                     ]
+                     ),
+                      
+                      
+                       drawer:Drawer(
+                         
+                     // Add a ListView to the drawer. This ensures the user can scroll
+                     // through the options in the drawer if there isn't enough vertical
+                     // space to fit everything.
+                     child: ListView(
+                       // Important: Remove any padding from the ListView.
+                       padding: EdgeInsets.zero,
+                       children: <Widget>[
+                         DrawerHeader(
+                           child: Text('MY FROFILE'),
+                           decoration: BoxDecoration(
+                             color: Colors.blueAccent,
+                           ),
+                         ),
                         
+                                 new  Column(
+                                   children: <Widget>[
+                                   new  Icon(Icons.people),
+                                        ListTile(
+             
+                                  title: Text('MyDetails',style:TextStyle(color: Colors.black87,),),
+                                  
+                                
+                                
+                                 
+             
+                        onTap: () {
+                                   // Update the state of the app
+                                   // ...
+                                   // Then close the drawer
+                                  
+                                   
+                                                var router=new MaterialPageRoute(
+                                                 builder: (BuildContext context){
+                                                   
+                                                   return NextScrean();
+                                                 
+                                                   }
+                                                
+                                                 
+                                               );
+                                                
+                                               Navigator.of(context).push(router);
+                                               
+                                              
+                                              
+                                                
+                                             
+                                  
+                                 },
+                                ),
+                                   ],
+             
+                               
+                         ),
+                          ListTile(
+                            title:Text("My Photos"),
+                            onTap: (){
+             
+                              var router2=new MaterialPageRoute(
+                                           builder: (BuildContext context){
+                                             
+                                             return NextScrean2();
+                                           
+                                             }
+                                          
+                                           
+                                         ); 
+                                          Navigator.of(context).push(router2);
+                            } 
+                          ),
                           
-                          );
-                      }
+                         ListTile(
+                           title: Text('login'),
+                           
+                            onTap: () {
+                             // Update the state of the app
+                             // ...
+                             // Then close the drawer
+                            
+                             var router1=new MaterialPageRoute(
+                               builder: (BuildContext context){
+                                 return NextScreen2();
+                                                   }
+                                                 );
+                                                             
+                                                              
+                                     Navigator.of(context).push(router1);
+                                                             
+                                                            
+                                                            
+                                                              
+                                                           
+                                                
+                                               },
+                                             ),
+                                             
+                                           ],
+                                         ),
+                                       ),
+                                  
+                     
+                                       );
+                                   }
+             
+               _setDetails() {
+                 setState(() {
+                  var route=MaterialPageRoute(
+                    builder:(BuildContext context){
+
+                        return NextScrean();
+                    } ) ;
+                    Navigator.of(context).push(route);
+                 });
+               }
                     }
                     
                    class NextScreen2 extends StatefulWidget {
@@ -179,7 +238,7 @@ class _HomeState extends State<Home> {
                             Navigator.of(context).push(router);
                              }else{
                            
-                            //_showonTapMessage(context,"Enter Correct Username or Password");
+                            _showonTapMessage(context,"Enter Correct Username or Password");
                              }
                           },
                           color: Colors.redAccent,
@@ -234,6 +293,21 @@ class _HomeState extends State<Home> {
         ),
       );
                      }
+        void _showonTapMessage(BuildContext context, String message) {
+          var alert = new AlertDialog(
+            title: Text("Error",style: TextStyle(color: Colors.red),),
+            content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("OK",style: TextStyle(color: Colors.green),),
+                  onPressed: () {
+                      Navigator.pop(context);
+                  }, )
+              ],
+          );
+ // showDialog(context: context, child: alert);
+  showDialog(context: context, builder: (context) => alert);
+}
                    }
 
 class NextScrean extends StatefulWidget {
@@ -263,7 +337,7 @@ class _NextScreanState extends State<NextScrean> {
       backgroundColor: Colors.grey,
       appBar: new AppBar(
         title: new Text("My Details"),
-        backgroundColor: Colors.blueAccent,
+        
         centerTitle: true,
       ),
       body:new Container(
@@ -304,3 +378,45 @@ class _NextScreanState extends State<NextScrean> {
       
   }
 }
+
+class NextScrean2 extends StatefulWidget {
+  NextScrean2({Key key}) : super(key: key);
+
+  _NextScrean2State createState() => _NextScrean2State();
+}
+
+class _NextScrean2State extends State<NextScrean2> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: new AppBar(
+        title: new Text("My GALLERY"),
+        centerTitle: true,
+      ),
+      body: new GridView.extent(
+        maxCrossAxisExtent: 150.0,
+        mainAxisSpacing: 5.0,
+        crossAxisSpacing: 5.0,
+        padding: const EdgeInsets.all(5.0),
+        children: 
+          _builderTitle(15),
+        
+      ),
+       
+    );
+  }
+}
+  List<Widget> _builderTitle(numberofTiles){
+    List<Container> container =new List<Container>.generate(numberofTiles, 
+    (int index){
+      //index =0,1,2,..
+      final imageName =index <9 ?
+        'images/img${index +1}.jpg' :'images/img${index +1}.jpg';
+        return new Container(
+          child: new Image.asset(
+            imageName,
+            fit: BoxFit.cover,),
+        );
+    });
+    return container;
+  }
