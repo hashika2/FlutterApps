@@ -9,7 +9,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final TextEditingController _inputusercontroller =new TextEditingController();
-  final TextEditingController _inpputpasswordc =new TextEditingController();
+  final TextEditingController _inpputpasswordcontroller =new TextEditingController();
 
   _login(){
     setState(() {
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
        appBar: new AppBar(
          title: new Text("Login"),
-         backgroundColor: Colors.black26,
+         backgroundColor: Colors.greenAccent,
          centerTitle: true,
 
        ),
@@ -34,16 +34,16 @@ class _HomeState extends State<Home> {
                new Column(
                  
                  children: <Widget>[
-                   
+                   new Padding(padding: const EdgeInsets.only(top: 20.0),),
                    Image.asset("images/face2.jpg",width:100,height: 100.0,)
                  ],
                  
                ),
-             Container(
-               margin: const EdgeInsets.only(top: 150.0),
+             Container(   
+               margin: const EdgeInsets.only(top: 350.0),
                width: 380.0,
                height: 180.0,
-               color: Colors.grey,
+               color: Colors.tealAccent,
                child: Column(
                  children: <Widget>[
 
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   new TextField(
-                    controller: _inputusercontroller,
+                    controller: _inpputpasswordcontroller,
                     decoration: new InputDecoration(
                       hintText: "Password",
                       icon: Icon(Icons.person_pin)
@@ -83,6 +83,11 @@ class _HomeState extends State<Home> {
                
                
               
+             ),
+             new Container(
+               child: Stack(
+                 
+               )
              )
              
            ],
