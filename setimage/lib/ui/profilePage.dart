@@ -1,9 +1,17 @@
+import 'dart:convert';
+import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:path/path.dart';
+
+
+
+
+//import 'package:sky_engine/_http/http.dart' as http;
 
 class PrfilePage extends StatefulWidget {
   PrfilePage({Key key}) : super(key: key);
@@ -13,31 +21,60 @@ class PrfilePage extends StatefulWidget {
 }
 
 class _PrfilePageState extends State<PrfilePage> {
-
+  final GlobalKey<ScaffoldState>_snaffolderstate =new GlobalKey<ScaffoldState>();
   File _image;
+
+  void _showSnackBarMsgString(String msg){
+   // _snaffolderstate.currentState.showSnackBar(new SnackBar(content:new Text(msg)));
+    _snaffolderstate.currentState.showSnackBar(new SnackBar(content:new Text("error")));
+  }
+  submitForm(File file) async {
+    String fileName =basename(file.path);
+    print("file base name : $fileName");
+
+    try{
+      FormData formData =new FormData.from({
+        "filePath":new UploadFileInfo(file, fileName)
+      });
+      //end poit
+      Response response =await Dio().post("http://localhost:8080/read",data:formData);
+      print("fileUpload response $response");
+      //show incoming msg
+      _showSnackBarMsgString(response.data['message']);
+    }
+    catch(e){
+      print("exception caught: $e");
+    }
+
+}
   @override
   Widget build(BuildContext context) {
 
     Future getImage() async{
       var image = await ImagePicker.pickImage(source:ImageSource.gallery);
+      submitForm(image);
 
       setState(() {
         _image=image;
         print("image path $_image");
       });
     }
-    Future uploadPic()async{
-      String fileName =basename(_image.path);
-      StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
-      StorageUploadTask uploadTask =firebaseStorageRef.putFile(_image);
-      StorageTaskSnapshot taskSnapshot =await uploadTask.onComplete;
+    // Future uploadPic()async{
+    //   String fileName =basename(_image.path);
+    //   StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+    //   StorageUploadTask uploadTask =firebaseStorageRef.putFile(_image);
+    //   StorageTaskSnapshot taskSnapshot =await uploadTask.onComplete;
 
-      setState(() {
-        print("profile picture uploaded");
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Uploaded'),));
-      });
-    }
+    //   setState(() {
+    //     print("profile picture uploaded");
+    //     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Uploaded'),));
+    //   });
+    // }
+
+  
+  
     return Scaffold(
+      key:_snaffolderstate,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(FontAwesomeIcons.arrowLeft,),
@@ -121,7 +158,7 @@ class _PrfilePageState extends State<PrfilePage> {
                               child: Container(
                                 child: Icon(
                                   FontAwesomeIcons.pen,
-                                  color: Color(0xff476cfb),                             
+                                  color: Color(0xff476cfb),
                                 ),),)
 
                           ],
@@ -230,7 +267,8 @@ class _PrfilePageState extends State<PrfilePage> {
                           RaisedButton(
                           color: Color(0xff476cfb),
                           onPressed: (){
-                            uploadPic();
+                            //uploadPic();
+                            submitForm(_image);
                           },
                           elevation: 4.0,
                           splashColor: Colors.blueGrey,
