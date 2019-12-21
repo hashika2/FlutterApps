@@ -1,12 +1,17 @@
-import 'dart:convert';
+
 import 'dart:async';
-import 'package:dio/dio.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
+
+
 import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
+
 
 
 
@@ -23,6 +28,10 @@ class PrfilePage extends StatefulWidget {
 class _PrfilePageState extends State<PrfilePage> {
   final GlobalKey<ScaffoldState>_snaffolderstate =new GlobalKey<ScaffoldState>();
   File _image;
+  Future<File> file;
+  String status='';
+  String errorMessage="uploading failed";
+  static final String uploadEndPoint ='http>//localhost/flutterApp/upload_image.php';
 
   void _showSnackBarMsgString(String msg){
    // _snaffolderstate.currentState.showSnackBar(new SnackBar(content:new Text(msg)));
@@ -32,20 +41,43 @@ class _PrfilePageState extends State<PrfilePage> {
     String fileName =basename(file.path);
     print("file base name : $fileName");
 
-    try{
-      FormData formData =new FormData.from({
-        "filePath":new UploadFileInfo(file, fileName)
+    if(null ==file){
+      setState(() {
+        print("not upload");
       });
-      //end poit
-      Response response =await Dio().post("http://localhost:8080/read",data:formData);
-      print("fileUpload response $response");
-      //show incoming msg
-      _showSnackBarMsgString(response.data['message']);
     }
-    catch(e){
-      print("exception caught: $e");
-    }
+    String fileN = file.path.split('/').last;
+    upload(fileN);
 
+    // try{
+    //   FormData formData =new FormData.from({
+    //     "filePath":new UploadFileInfo(file, fileName)
+    //   });
+    //   //end poit
+    //   Response response =await Dio().post("http://localhost:8080/read",data:formData);
+    //   print("fileUpload response $response");
+    //   //show incoming msg
+    //   _showSnackBarMsgString(response.data['message']);
+    // }
+    // catch(e){
+    //   print("exception caught: $e");
+    // }
+
+}
+setStatus(error){
+  setState(() {
+    status=error;
+  });
+}
+upload(String fileName){
+  http.post(uploadEndPoint,body:{
+    'image':file,
+    "name":fileName
+  }).then((result){
+    setStatus(result.statusCode==200 ?result.body :errorMessage);
+  }).catchError((error){
+    setStatus(error); 
+  });
 }
   @override
   Widget build(BuildContext context) {
@@ -53,6 +85,7 @@ class _PrfilePageState extends State<PrfilePage> {
     Future getImage() async{
       var image = await ImagePicker.pickImage(source:ImageSource.gallery);
       submitForm(image);
+      print('hashi');
 
       setState(() {
         _image=image;
@@ -145,6 +178,7 @@ class _PrfilePageState extends State<PrfilePage> {
                               ),
                               ),
                               ),
+                           
                                Align(
                               alignment: Alignment.centerLeft,
                               child: Text("Michel James",
