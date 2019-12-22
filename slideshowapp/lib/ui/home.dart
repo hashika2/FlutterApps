@@ -11,6 +11,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  login(){
+    var route=new MaterialPageRoute(
+      builder:(BuildContext context){
+        return NextScreen2();
+      } );
+       Navigator.of(context).push(route);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,19 +39,25 @@ class _HomeState extends State<Home> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-              
-            new Center(
-              
-              child: new Text("WELCOME TO PAGE",
-              
-              style:new TextStyle(fontSize: 30.0,color: Colors.white,fontFamily:"Raleway")),
-              
+            
+            SizedBox(height: 20.0,),
+            new Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new RaisedButton(
+                    padding: EdgeInsets.all(0.0),
+                    onPressed:login ,
+                    child: Text("Login",style:TextStyle(backgroundColor: Colors.green,fontSize: 40.5,color: Colors.white),),
+              ),
+              SizedBox(height: 20.0,),
+              Text("Welcome to Profile",style: TextStyle(color: Colors.white,fontSize: 25.5),)
+                ],
+              )
+             
             )
-          
             ],
           )
-          
-          
                      ]
                      ),
                        drawer:Drawer(

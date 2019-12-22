@@ -68,24 +68,17 @@ class NextScreen2 extends StatefulWidget {
                     children: <Widget>[
 
                       new Container(
-
                         margin: const EdgeInsets.only(left:16.7),//margin left
                         child: new RaisedButton(
                           onPressed: (){
                              if(_userController.text=="hashika" && _passwordController.text=="12345"){
                             var router=new MaterialPageRoute(
                               builder: (BuildContext context){
-                                
                                 return NextScrean();
-                              
                                 }
-                             
-                              
                             );
-                             
                             Navigator.of(context).push(router);
                              }else{
-                           
                             _showonTapMessage(context,"Enter Correct Username or Password");
                              }
                           },
@@ -94,38 +87,29 @@ class NextScreen2 extends StatefulWidget {
                           style:new TextStyle(color: Colors.white,
                           fontSize: 16.9)),
                         ),
-                        
-                          
                       ),
-                      new Container(
-                         
-                          margin: const EdgeInsets.only(left: 120.6),
-                          child: new RaisedButton(
-                             onPressed:_irase,
-                          color: Colors.redAccent,
-                          child: new Text("Clear",
-                          style:new TextStyle(color: Colors.white,
-                          fontSize: 16.9)),
-                          ),
-                        )
+                          new Container(
+                              margin: const EdgeInsets.only(left: 120.6),
+                              child: new RaisedButton(
+                                onPressed:_irase,
+                              color: Colors.redAccent,
+                              child: new Text("Clear",
+                              style:new TextStyle(color: Colors.white,
+                              fontSize: 16.9)),
+                              ),
+                            )
                     ],
                   ),
                 )
                   ],
                 ),//form end here
-
-               
-                
               ),
               new Padding(
                 padding :const EdgeInsets.all(10.45)),
                new Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    
                     new Text('Welcome',
-                              
-                              
                     style:new TextStyle(
                       fontSize: 16.34,
                       color: Colors.white,
