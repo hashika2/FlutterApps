@@ -1,59 +1,26 @@
 import 'package:flutter/material.dart';
-import '../ui/login.dart';
-import '../ui/myphoto.dart';
-import '../ui/MyMap.dart';
 import '../ui/mydetails.dart';
+import '../ui/myphoto.dart';
+import '../ui/login.dart';
 
-class Home extends StatefulWidget {
-  Home({Key key, String title}) : super(key: key);
+class Drawer extends StatefulWidget {
+  Drawer({Key key}) : super(key: key);
 
-  _HomeState createState() => _HomeState();
+  @override
+  _DrawerState createState() => _DrawerState();
 }
 
-class _HomeState extends State<Home> {
+class _DrawerState extends State<Drawer> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:new AppBar(
-        title: new Text("Side bar Shower"),
-        backgroundColor: Colors.blueAccent,
-        centerTitle: true,
-      ),
-        body: new Stack(
-        children: <Widget>[
-          new Center(
-            child: new Image.asset('images/img.jpeg',
-            width: 370.0,
-            height: 1100.0,
-            fit: BoxFit.fill,// full size of the screen
-            
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-              
-            new Center(
-              
-              child: new Text("WELCOME TO PAGE",
-              
-              style:new TextStyle(fontSize: 30.0,color: Colors.white,fontFamily:"Raleway")),
-              
-            )
-          
-            ],
-          )
-          
-          
-                     ]
-                     ),
-                       drawer:Drawer(
-                     // Add a ListView to the drawer. This ensures the user can scroll
+    return Container(
+         // Add a ListView to the drawer. This ensures the user can scroll
                      // through the options in the drawer if there isn't enough vertical
                      // space to fit everything.
 
 
                      child: ListView(
+                       
                        // Important: Remove any padding from the ListView.
                        padding: EdgeInsets.zero,
                        children: <Widget>[
@@ -119,31 +86,9 @@ class _HomeState extends State<Home> {
                                      Navigator.of(context).push(router1);
                             }
                                              ),
-                       ListTile(
-                            leading: Icon(Icons.map),
-                            title:Text("My Map"),
-                            onTap: (){
-                              var router3=new MaterialPageRoute(
-                                 builder: (BuildContext context){
-                                     return MyMap();
-                                 }
-                              ); 
-                                 Navigator.of(context).push(router3);
-                            } 
-                          ),
-                            ],
-                               ),
-                                  ),
-                                     );
-                                   }
-               _setDetails() {
-                 setState(() {
-                  var route=MaterialPageRoute(
-                    builder:(BuildContext context){
-
-                        return NextScrean();
-                    } ) ;
-                    Navigator.of(context).push(route);
-                 });
-               }
-                    }
+                                           ],
+                                         ),
+    );
+  }
+}
+                   
