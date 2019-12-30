@@ -27,50 +27,43 @@ class PrfilePage extends StatefulWidget {
 class _PrfilePageState extends State<PrfilePage> {
   //final GlobalKey<ScaffoldState>_snaffolderstate =new GlobalKey<ScaffoldState>();
   File tempFile;
+  File f;
   Future<File> file;
   String status='';
   String base64Image;
   String errorMessage="uploading failed";
-  static final String uploadEndPoint ='http://10.0.2.2:8080/read';
+  static final String uploadEndPoint ='192.168.43.93:8080';
 
-
-//   submitForm(File file) async {
-//     // print(file);
-//     String fileName =basename(file.path);
-//     print("file base name : $fileName");
-
-//     if(fileName==null){
-//       setState(() {
-//         print("not upload");
-//       });
-//     }
-//     String fileN = file.path.split('/').last;
-//     print(fileN);
-//     upload(fileN);
-
-// }
 setStatus(error){
   setState(() {
     status=error;
   });
 }
-upload(String fileName)async{
+upload(File fileName)async{
     //String fileName=basename(fileName.path);
   try{
     
   FormData formData = new FormData.from({
-     "file":new UploadFileInfo(tempFile, fileName)
+     //"file":new UploadFileInfo(tempFile, fileName)
+     "image":fileName,
+     
   });
   var dio = Dio();
   print(formData);
 
  //formData.files.add(MapEntry("Picture", await MultipartFile.fromFile())
   // var response=await dio.post(uploadEndPoint,data:formData);
-  await dio.post(uploadEndPoint,data:formData).then((result){
-    print(result.data);
-  });
-  
+  // Response res=await http.post(uploadEndPoint,body:formData).then((result){
+  //   print(result.body);
+  // });/
+  // var res= http.post(new Uri.http(uploadEndPoint,'/read'), body: formData);
+  // print(res);
+   var request = new http.MultipartRequest("POST", new Uri.http(uploadEndPoint, '/read'));
+    request.files.add(new http.MultipartFile.fromBytes('image', await fileName.readAsBytes()));
 
+    request.send().then((response) {
+      if (response.statusCode == 200) print("Uploaded!");
+    });
   }catch(e){
     print('error'+e);
   }
@@ -95,7 +88,7 @@ upload(String fileName)async{
       
     }
     String fileN = tempFile.path.split('/').last;
-    upload(fileN);
+    upload(tempFile);
     }
 
     Widget showImage(){
