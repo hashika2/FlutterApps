@@ -1,21 +1,13 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './ui/profilePage.dart';
 
-void main() => runApp(MyApp());
+//import './config/config.dart' as config;
+import './ui/uploadImgae.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-      
-        primarySwatch: Colors.blue,
-      ),
-      home: PrfilePage(),
-    );
-  }
-}
+main() => runApp(
+  MaterialApp(
+    title: "OCR APP", 
+    home: MyHomePage()));
 
 
