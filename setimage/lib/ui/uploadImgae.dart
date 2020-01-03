@@ -1,43 +1,52 @@
-
-
 import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+//import 'package:image_cropper/image_cropper.dart';
+//import 'package:flutter_image_ppicker/image_picker_dialog.dart';
+//import '../ui/imageCroper.dart';
 
-//import './config/config.dart' as config;
 
-class MyHomePage extends StatefulWidget {
+
+class Home extends StatefulWidget {
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeState createState() => _HomeState();
 }
-
-class _MyHomePageState extends State<MyHomePage> {
-  File _image;
+ 
+class _HomeState extends State<Home> {
+  
+ File _image;
   String getText;
   bool isCamera=true;
   var image;
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   state =AppState.free
+  // }
 
-    Future<void> setImage(BuildContext context){
+   Future<void> _showChoiceDialog(BuildContext context){
           return showDialog(context: context,builder: (BuildContext context){
             return AlertDialog(
               title: Text("Make A Choice"),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                   
-                    GestureDetector(
-                      child: Text("Gallery"),
-                      onTap: (){
+                    RaisedButton(
+                      color: Colors.pinkAccent,
+                      child: Text("Gallery",),
+                      onPressed: (){
                         _openGallery(context);
                       },
                     ),
                     Padding(padding: EdgeInsets.all(8.0),),
-                    GestureDetector(
+                    RaisedButton(
+                      color: Colors.pinkAccent,//
                       child: Text("Camera"),
-                      onTap: (){
+                      onPressed: (){
+                        print("hashika");
                         _openCamera(context);
                       },
                     )
@@ -47,47 +56,18 @@ class _MyHomePageState extends State<MyHomePage> {
           });
   }
 
-  // Future getImage(isCamera) async {
-  //   if(isCamera){
-  //      image = await ImagePicker.pickImage(source: ImageSource.gallery);
-  //   }else{
-  //      image =await ImagePicker.pickImage(source: ImageSource.camera);
-  //   }
-    
 
-  //   setState(() {
-  //     _image = image;
-  //   });
-  // }
-
-   Future _openGallery(BuildContext context) async{
-    image =await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
-    Navigator.of(context).pop();
-
-  }
-  Future _openCamera( BuildContext context) async{
-     image =await ImagePicker.pickImage(source: ImageSource.camera);
-   setState(() {
-      _image = image;
-      print("hashika");
-    });
-    Navigator.of(context).pop();
-  }
-
-  upload() async {
+ upload() async {
     String fileName = _image.path;
     print(fileName);
     //String torken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZHVzaGFua2FrYWhhd2FAZ21haWwuY29tIiwiX2lkIjoiNWUwZGNhYTZiODdkZTcwMDA0N2I5MDE2IiwiaWF0IjoxNTc3OTg0MDgzLCJleHAiOjE1Nzc5ODc2ODN9.hU-UXQLqU3ogPUXzM6skJXMwub5U42joIYs2bef_NLQ";
     try {
       FormData formData =
-          new FormData.from({"image": new UploadFileInfo(_image, fileName)});
+          new FormData.from({"filePath": new UploadFileInfo(_image, fileName)});
       var response =
-          await Dio().post('http://192.168.8.103:5000/api/upload', data: formData);
+          await Dio().post('http://192.168.43.91:8080/read', data: formData);
       print(response.data);
-      // _showonTapMessage(context, response.data);
+      _showonTapMessage(context, response.data);
 
       var state=response.data;
       getText=state;
@@ -99,84 +79,130 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-//         void _showonTapMessage(BuildContext context, String message) {
-//           var alert = new AlertDialog(
-//             title: Text("Error",style: TextStyle(color: Colors.red),),
-//             content: Text(message.toString()),
-//             actions: <Widget>[
-//                 FlatButton(
-//                   child: Text("OK",style: TextStyle(color: Colors.green),),
-//                   onPressed: () {
-//                       Navigator.pop(context);
-//                   }, )
-//               ],
-//           );
-//  // showDialog(context: context, child: alert);
-//   showDialog(context: context, builder: (context) => alert);
-// }
+   File imageFile;
 
-    Widget _desideImageView(){
+  Widget _desideImageView(){
     if(_image == null)
-      return null;
-    else{
-      return Image.file(_image,width:400,height:100);
-    }
-  }
+          return Text("No profile");
+          else{
+            return (
+              Image.file(_image,width:400,height:300,alignment: Alignment.center,));
+          }
+      }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Picker Example'),
-      ),
-      body: Form(
-          child: Column(
-        children: <Widget>[
-             _desideImageView(),
-        // _image == null ? Text('No image selected.') :_desideImageView,
 
-          RaisedButton(
-            child: Text("Upload"),
+    // var imageCropper =new ImageCropper();
+    // imageCropper.build(context);
+
+    return Scaffold(
+      appBar: new AppBar(
+        title: new Text("Gallery"),
+        centerTitle: true,
+
+      ),
+      //backgroundColor: Colors.white38,
+      
+      body: new Form(
+        
+        child:Center(
+           child: new Column(
+         // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+             _desideImageView(),
+            Text("$getText",style: new TextStyle(fontSize: 10.4,color: Colors.black),),
+            ButtonTheme(
+              minWidth: 300.0,
+              child:RaisedButton(
+              onPressed: (){
+                _showChoiceDialog(context);
+              },
+               padding: const EdgeInsets.all(0.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFF0D47A1),
+                        Color(0xFF1976D2),
+                        Color(0xFF42A5F5),
+                      ],
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text("select Image",style:TextStyle(fontSize: 20.0,color: Colors.white),)
+                ),
+                ) ,
+            ),
+          
+                // child: Text("select Image",style:TextStyle(fontSize: 20.0),)
+            RaisedButton(
+              color: Colors.blueAccent,
+            child: Text("Upload",style: TextStyle(color: Colors.white),),
             onPressed:// _image != null ? upload :null ,
             (){
+              
               if(_image!=null){
                 upload();
-                //_showonTapMessage(context, getText);
+              }
+              else{
+                _showonTapMessage(context, "error");
               }
             }
           ),
-          Row(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-             children: <Widget>[
-               Align(
-                  alignment:Alignment.centerLeft ,
-                  child: Container(
-                    child:Column(
-                      children: <Widget>[
-                          Align(
-                             alignment: Alignment.centerLeft,
-                              child: Text(getText,
-                              style: TextStyle(
-                                color: Colors.blueGrey,fontSize: 18.0
-                              ),
-                              ),
-                          )
-                      ],
-                    ) ,),
-               )
-             ],
-          )
-        ],
-      )
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:() {
-          setImage(context);
-          },
-        tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
-      ),
-      
-    );
+                          ],
+                        ),
+                        )
+                      ),
+                    );
+                  }
+
+       
+  
+  _openGallery(BuildContext context) async{
+  
+    var image =await ImagePicker.pickImage(source: ImageSource.gallery);
+    //cropImage(image);
+    this.setState((){
+      _image = image;
+    });
+    Navigator.of(context).pop();
+
   }
+    _openCamera( BuildContext context) async{
+     var picture =await ImagePicker.pickImage(source: ImageSource.camera);
+     print("I am in");
+    this.setState((){
+      _image =picture;
+    });
+    Navigator.of(context).pop();
+  }
+  //ImagePickerListener _listener;
+// Future cropImage(File image) async {
+//     File croppedFile = await ImageCropper.cropImage(
+//       sourcePath: image.path,
+//       ratioX: 1.0,
+//       ratioY: 1.0,
+//       maxWidth: 512,
+//       maxHeight: 512,
+//     );
+//     _listener.userImage(croppedFile);
+//   }
+                
+void _showonTapMessage(BuildContext context, String message) {
+var alert = new AlertDialog(
+  title: Text("Text Output",style: TextStyle(color: Colors.red),),
+  content: Text(message),
+    actions: <Widget>[
+      FlatButton(
+        child: Text("OK",style: TextStyle(color: Colors.green),),
+        onPressed: () {
+            Navigator.pop(context);
+        }, )
+    ],
+);
+// showDialog(context: context, child: alert);
+showDialog(context: context, builder: (context) => alert);
+}
+                 
 }

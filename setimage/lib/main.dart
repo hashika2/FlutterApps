@@ -8,6 +8,6 @@ import './ui/uploadImgae.dart';
 main() => runApp(
   MaterialApp(
     title: "OCR APP", 
-    home: MyHomePage()));
+    home: Home()));
 
 
